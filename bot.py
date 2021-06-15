@@ -62,6 +62,7 @@ class InstanceMonitor:                               ## CLASS TO MONITOR INSTANC
             if old_runCode == -1:
                 old_runCode = self.runCode;                                              # this only applies in 1st iteration
             if old_runCode == 16 and (self.calculateUse() > (self.weeklyBudget*3600)):   # if running, but out of budget, then stop
+                print("Stopping instance! Used {} seconds".format(self.calculateUse()))
                 self.stop();
             if self.runCode != old_runCode:                                              # in case of state change
                 if self.runCode == 16: # starting event                         # This means, the instance has just started
@@ -147,12 +148,12 @@ if os.path.exists('myUserIDs.dill'):
         myUserIDs = dill.load(dill_file);
 else:
     myUserIDs = {}
-if os.path.exists('myAssignments.dill'):
-    with open('myAssignments.dill', "rb") as dill_file:
-        myAssignments = dill.load(dill_file);
-else:
-    myAssignments = {}
-
+myAssignments = {}
+for user in myUserIDs.keys():
+    instance_name = myList[user];
+    myID = instance_by_name(instance_name)
+    userID = myUserIDs[user]
+    myAssignments[userID] = InstanceMonitor(myID,assignedUser=userID)
 
 intents = discord.Intents.default()
 intents.members = True
@@ -164,8 +165,6 @@ def save_all_lists():
         dill.dump(myList,dill_file);
     with open('myUserIDs.dill', "wb") as dill_file:
         dill.dump(myUserIDs,dill_file);
-    with open('myAssignments.dill', "wb") as dill_file:
-        dill.dump(myAssignments,dill_file);
 
 @dclient.event
 async def on_ready():
