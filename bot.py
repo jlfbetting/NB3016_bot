@@ -42,7 +42,7 @@ def instance_by_name(name):
 
 
 class InstanceMonitor:                               ## CLASS TO MONITOR INSTANCE
-    def __init__(self,ID,weeklyBudget=18,assignedUser=''):           # Constructor
+    def __init__(self,ID,weeklyBudget=16,assignedUser=''):           # Constructor
         self.ID = ID
         self.assignedUser = assignedUser
         self.weeklyBudget = weeklyBudget # in hours
@@ -176,6 +176,8 @@ async def on_ready():
 
 @dclient.event
 async def on_message(message):
+    if not isinstance(message.channel, discord.DMChannel):
+        return;
     myMember = get(dclient.guilds[0].members, id=message.author.id)
     if not myMember:
         print("Not a member of the guild!")
