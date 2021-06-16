@@ -197,6 +197,7 @@ async def on_message(message):
             return;
         if message.author.id in myAssignments.keys():
             await message.channel.send('You already have an instance assigned to you!')
+            await message.channel.send('You can use the following commands with this bot:\n $info : Get information about your instance and budget \n $start : Start your instance \n $stop : Stop your instance')
             return;
         instance_name = myList[userName];
         myID = instance_by_name(instance_name)
