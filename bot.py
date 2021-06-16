@@ -285,6 +285,7 @@ async def on_message(message):
                     myAssignments[myUserIDs[user]].delete();
                     myAssignments[myUserIDs[user]]
                     del myAssignments[myUserIDs[user]]
+                    del myUserIDs[user]
                 if user in myList.keys():
                     del myList[user]
             except:
